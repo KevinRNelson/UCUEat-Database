@@ -1,0 +1,114 @@
+package diningHallScrapper;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+public abstract class DiningHallMenuScrapper implements MenuScrapper {
+	
+	private Document document;
+	
+	// =============================================================================================
+    //                                          Constructor
+    // =============================================================================================
+		
+	DiningHallMenuScrapper(String url) {
+		this.document = null;
+        try {
+        	Connection con = Jsoup.connect(url)
+    			.cookies(cookies());
+
+            Connection.Response response = con.execute();
+
+            if (response.statusCode() == 200) {
+            	this.document = con.get();
+            } else {
+                System.out.println(response.statusCode());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	// =============================================================================================
+    //                                       Abstract  Methods
+    // =============================================================================================
+	
+	abstract Map<String, String> cookies();
+		
+	abstract String mealTableSelector();
+	
+	abstract String mealTextSelector();
+	
+	abstract String mealTableRowSelector();
+	
+	abstract String mealCategorySelector();
+	
+	abstract String scrapeMealCategoryTitle(Element mealTableRow);
+	
+	// =============================================================================================
+    //                                        Public  Methods
+    // =============================================================================================
+	
+	@Override
+	public Map<String, Map<String, List<String>>> scrapeMenu() {
+		Map<String, Map<String, List<String>>> result = new LinkedHashMap<>();
+
+		for (Element mealTable : document.select(mealTableSelector())) {
+			String meal = scrapeMealTitle(mealTable);	
+			
+			result.put(meal, scrapeMenuItemsForMeal(mealTable));
+		}
+		
+		return result;
+	}
+	
+	// =============================================================================================
+    //                                        Private  Methods
+    // =============================================================================================
+	
+	private String scrapeMealTitle(Element mealTable) {
+		return mealTable.select(mealTextSelector()).text();
+	}
+		
+	
+	private Map<String, List<String>> scrapeMenuItemsForMeal(Element mealTable) {
+		Map<String, List<String>> result = new LinkedHashMap<>();
+		
+		String mealCategory = "";
+		List<String> categoryItems = null;
+		
+		for (Element mealTableRow : mealTable.select(mealTableRowSelector())) {
+			if (rowContainsCategoryTitle(mealTableRow)) {
+				categoryItems = new ArrayList<String>();
+				
+				mealCategory = scrapeMealCategoryTitle(mealTableRow);
+				
+				addCategoryMenuItemsToMenu(result, mealCategory, categoryItems);
+			} else {
+				categoryItems.add(mealTableRow.text());
+			}
+		}
+				
+		return result;
+	}
+		
+	
+	private boolean rowContainsCategoryTitle(Element mealTableRow) {
+		return !mealTableRow.select(mealCategorySelector()).isEmpty();
+	}
+	
+	
+	private void addCategoryMenuItemsToMenu(Map<String, List<String>> menu, String mealCategory, List<String> categoryItems) {
+		menu.put(mealCategory, categoryItems);
+	}
+	
+}

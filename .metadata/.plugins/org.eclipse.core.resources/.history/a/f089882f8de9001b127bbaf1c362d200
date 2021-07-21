@@ -1,0 +1,33 @@
+package diningHallScrapper;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
+public class DiningHallMenuScrapper implements MenuScrapper {
+
+	@Override
+	public List<String> scrape(String url) throws IOException {
+		Document doc = Jsoup.connect(url).get();
+		List<String> result = new ArrayList<>();
+		result.add(url);
+		
+		return result;
+	}
+	
+	@Override
+	public List<String> scrapeSections(String url) throws IOException {
+		List<String> result = new ArrayList<>();
+
+		Document doc = Jsoup.connect(url).get();
+		for (Element shortmenu : doc.select("body > table div.shortmenumeals"))
+			result.add(shortmenu.text());
+		
+		return result;
+	}
+
+}

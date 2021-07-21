@@ -1,0 +1,82 @@
+package diningHallScrapper;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
+public abstract class DiningHallMenuScrapper implements MenuScrapper {
+	
+	private Document document;
+	
+	DiningHallMenuScrapper(String url) {
+		this.document = null;
+        try {
+        	Connection con = Jsoup.connect(url)
+    			.cookies(cookies());
+
+            Connection.Response response = con.execute();
+
+            if (response.statusCode() == 200) {
+            	this.document = con.get();
+            } else {
+                System.out.println(response.statusCode());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	abstract Map<String, String> cookies();
+	
+	abstract String sectionSelector();
+	
+	@Override
+	public Document document(String url) {
+		Document doc = null;
+        try {
+        	Connection con = Jsoup.connect(url)
+    			.cookies(cookies());
+
+            Connection.Response response = con.execute();
+
+            if (response.statusCode() == 200) {
+                doc = con.get();
+            } else {
+                System.out.println(response.statusCode());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        
+        return doc;
+	}
+	
+	@Override
+	public List<String> scrape(String url) throws IOException {
+		Document doc = Jsoup.connect(url).get();
+		List<String> result = new ArrayList<>();
+		result.add(url);
+		
+		return result;
+	}
+	
+	
+	@Override
+	public List<String> scrapeSections(String url) throws IOException {
+		List<String> result = new ArrayList<>();
+
+		Document doc = document(url);
+		for (Element section : doc.select(sectionSelector()))
+			result.add(section.text());
+		
+		return result;
+	}
+
+}

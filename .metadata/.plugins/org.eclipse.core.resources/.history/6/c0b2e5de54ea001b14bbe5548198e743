@@ -1,0 +1,125 @@
+package diningHallScrapper;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+
+public abstract class DiningHallMenuScrapper implements MenuScrapper {
+	
+	private Document document;
+	
+	DiningHallMenuScrapper(String url) {
+		this.document = null;
+        try {
+        	Connection con = Jsoup.connect(url)
+    			.cookies(cookies());
+
+            Connection.Response response = con.execute();
+
+            if (response.statusCode() == 200) {
+            	this.document = con.get();
+            } else {
+                System.out.println(response.statusCode());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	abstract Map<String, String> cookies();
+	
+	abstract String mealSelector();
+	
+	abstract String mealTableSelector();
+	
+	abstract String mealTextSelector();
+	
+	@Override
+	public List<String> scrapeMeals() throws IOException {
+		List<String> result = new ArrayList<>();
+
+		Elements mealTables = this.document.select(mealTableSelector());
+		for (Element mealTable : mealTables) {
+			String meal = scrapeMealTitle(mealTable);
+			
+			result.add(meal);
+		}
+		
+		return result;
+	}
+	
+	abstract String mealCategorySelector(int mealIndex);
+	
+	@Override
+	public List<List<String>> scrapeMealCategories() throws IOException {
+		List<List<String>> result = new ArrayList<>();
+
+		List<String> meals = scrapeMeals();
+		for (int i = 0; i < meals.size(); i++) {
+			List<String> categories = new ArrayList<>();
+			
+			for (Element subsection : this.document.select(mealCategorySelector(i+1))) //CSS is 1-indexed
+				categories.add(subsection.text());
+			
+			result.add(categories);
+		}
+
+		return result;
+	}
+	
+	@Override
+	public Map<String, Map<String, List<String>>> scrapeMenu() {
+		Map<String, Map<String, List<String>>> result = new LinkedHashMap<>();
+
+		Elements mealTables = this.document.select(mealTableSelector());
+		for (Element mealTable : mealTables) {
+			String meal = scrapeMealTitle(mealTable);			
+			result.put(meal, scrapeMenuItemsForMeal(mealTable));
+		}
+		
+		return result;
+	}
+	
+	private String scrapeMealTitle(Element mealTable) {
+		return mealTable.select(mealTextSelector()).text();
+	}
+	
+	abstract String mealTableRowSelector();
+	
+	private Map<String, List<String>> scrapeMenuItemsForMeal(Element mealTable) {
+		Map<String, List<String>> result = new LinkedHashMap<>();
+		
+		String mealCategory = "";
+		List<String> categoryItems = null;
+		for (Element mealTableRow : mealTable.select(mealTableRowSelector())) {
+			if (rowContainsCategoryTitle(mealTableRow)) {
+				if (mealCategory != "")
+					result.put(mealCategory, categoryItems);
+				mealCategory = scrapeMealCategoryTitle(mealTableRow);
+				categoryItems = new ArrayList<String>();
+				System.out.println(mealCategory);
+			} else {
+				categoryItems.add(mealTableRow.text());
+			}
+		}
+		
+		return result;
+	}
+	
+	abstract String mealCategorySelector();
+	
+	private boolean rowContainsCategoryTitle(Element mealTableRow) {
+		return !mealTableRow.select(mealCategorySelector()).isEmpty();
+	}
+	
+	abstract String scrapeMealCategoryTitle(Element mealTableRow);
+
+}

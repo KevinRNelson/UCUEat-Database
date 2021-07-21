@@ -1,0 +1,54 @@
+package diningHallScrapper;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class UcscDiningHallMenuScrapper extends DiningHallMenuScrapper implements MenuScrapper {
+
+	UcscDiningHallMenuScrapper(String url) {
+		super(url);
+	}
+
+	@Override
+	Map<String, String> cookies() {
+		Map<String, String> result = new HashMap<>();
+
+		result.put("WebInaCartDates", "");
+		result.put("WebInaCartMeals", "");
+		result.put("WebInaCartRecipes", "");
+		result.put("WebInaCartQtys", "");
+		result.put("WebInaCartLocation", "25");
+		
+		return result;
+	}
+	
+	@Override
+	String mealCategorySelector(int mealIndex) {
+		return String.format("body > table:nth-of-type(2) > tbody > :nth-child(%d) .shortmenucats", mealIndex);
+	}
+	
+	@Override
+	String mealTableSelector() {
+		return "body > table:nth-of-type(2) > tbody > tr";
+	}
+	
+	@Override
+	String mealSelector() {
+		return "body > table:nth-of-type(2) > tbody > tr > td > table > tbody > tr:nth-of-type(1)";
+	}
+	
+	@Override
+	String mealTextSelector() {
+		return ".shortmenumeals";
+	}
+	
+	@Override
+	String mealTableRowSelector() {
+		return "td > table > tbody > tr:nth-of-type(2) > td > table > tbody > tr";
+	}
+	
+	@Override
+	String mealCategorySelector() {
+		return ".shortmenucats";
+	}
+}

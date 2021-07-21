@@ -1,0 +1,4 @@
+module DiningHallScrapper {
+	requires junit;
+	
+}

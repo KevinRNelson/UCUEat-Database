@@ -1,0 +1,59 @@
+package diningHallScrapper;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.junit.jupiter.api.Test;
+
+class TestDiningHallScrapper {
+
+	private MenuScrapper scrapper = new DiningHallScrapper();
+	
+	@Test
+	void testJsoup() throws IOException {
+		List<String> result = new ArrayList<>();
+
+		String porter_url = "nutrition.sa.ucsc.edu/shortmenu.aspx?sName=UC+Santa+Cruz+Dining&locationNum=25&locationName=Porter+Kresge+Dining+Hall&naFlag=1";
+		
+		Document doc = null;
+        try {
+        	Connection con = Jsoup.connect(porter_url)
+                .timeout(30000);
+
+            Connection.Response response = con.execute();
+
+            if (response.statusCode() == 200) {
+                doc = con.get();
+            } else {
+                System.out.println(response.statusCode());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		
+//		Document doc = Jsoup.connect(porter_url).get();
+		for (Element shortmenu : doc.select("body > table div.shortmenumeals"))
+			result.add(shortmenu.text());
+		
+		assertEquals("Breakfast", result.get(0));
+		assertEquals("Lunch", result.get(1));
+		assertEquals("Dinner", result.get(2));
+	}
+	
+//	@Test
+//	void testGetSection() throws IOException {
+//		String porter_url = "https://nutrition.sa.ucsc.edu/shortmenu.aspx?sName=UC+Santa+Cruz+Dining&locationNum=25&locationName=Porter+Kresge+Dining+Hall&naFlag=1";
+//		List<String> sections = scrapper.scrapeSections(porter_url);
+//		assertEquals("Breakfast", sections.get(0));
+//		assertEquals("Lunch", sections.get(1));
+//		assertEquals("Dinner", sections.get(2));
+//	}
+
+}

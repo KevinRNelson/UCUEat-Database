@@ -1,0 +1,26 @@
+package diningHallScrapper;
+
+import java.util.HashMap;
+import java.util.Map;
+
+public class UcscDiningHallMenuScrapper extends DiningHallMenuScrapper implements MenuScrapper {
+
+	@Override
+	Map<String, String> cookies() {
+		Map<String, String> result = new HashMap<>();
+
+		result.put("WebInaCartDates", "");
+		result.put("WebInaCartMeals", "");
+		result.put("WebInaCartRecipes", "");
+		result.put("WebInaCartQtys", "");
+		result.put("WebInaCartLocation", "25");
+		
+		return result;
+	}
+
+	@Override
+	String shortmenuSelector() {
+		return "body > table div.shortmenumeals";
+	}
+	
+}

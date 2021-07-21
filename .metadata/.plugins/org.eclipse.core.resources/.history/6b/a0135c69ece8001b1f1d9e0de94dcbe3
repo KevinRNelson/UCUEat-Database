@@ -1,0 +1,8 @@
+package diningHallScrapper;
+
+import java.util.List;
+
+public interface MenuScrapper {
+
+	public List<String> scrape(String url);
+}

@@ -1,0 +1,16 @@
+package diningHallScrapper;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class DiningHallScrapper implements MenuScrapper {
+
+	@Override
+	public List<String> scrape(String url) {
+		List<String> result = new ArrayList<>();
+		result.add(url);
+		
+		return result;
+	}
+
+}

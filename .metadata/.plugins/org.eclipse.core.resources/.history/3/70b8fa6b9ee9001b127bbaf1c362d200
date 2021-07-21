@@ -1,0 +1,50 @@
+package diningHallScrapper;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+
+public abstract class DiningHallMenuScrapper implements MenuScrapper {
+	
+	private Document document;
+	
+	DiningHallMenuScrapper(String url) {
+		this.document = null;
+        try {
+        	Connection con = Jsoup.connect(url)
+    			.cookies(cookies());
+
+            Connection.Response response = con.execute();
+
+            if (response.statusCode() == 200) {
+            	this.document = con.get();
+            } else {
+                System.out.println(response.statusCode());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+	}
+	
+	abstract Map<String, String> cookies();
+	
+	abstract String sectionSelector();
+	
+	@Override
+	public List<String> scrapeSections() throws IOException {
+		List<String> result = new ArrayList<>();
+
+		for (Element section : this.document.select(sectionSelector()))
+			result.add(section.text());
+		
+		return result;
+	}
+
+}

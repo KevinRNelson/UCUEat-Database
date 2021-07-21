@@ -1,0 +1,18 @@
+INDEX VERSION 1.131+C:\Users\nelso\Documents\Projects\Eclipse\UCUEat-Database\.metadata\.plugins\org.eclipse.jdt.core
+201546942.index
+209248310.index
+605063912.index
+2131903237.index
+572155914.index
+714151925.index
+3275547800.index
+836643741.index
+1615498036.index
+2565414342.index
+708195083.index
+818121058.index
+3182995523.index
+3909374383.index
+302865532.index
+1068742112.index
+1613890618.index

@@ -1,0 +1,107 @@
+package diningHallScrapper;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
+import org.junit.jupiter.api.Test;
+
+class TestDiningHallScrapper {
+
+	private MenuScrapper scrapper = new DiningHallScrapper();
+	
+//	@Test
+//	void testWikipedia() throws IOException {
+//		Document doc = Jsoup.connect("https://en.wikipedia.org/").get();
+//		System.out.println((doc.title()));
+//		Elements newsHeadlines = doc.select("#mp-itn b a");
+//		for (Element headline : newsHeadlines) {
+//		  System.out.println(String.format("%s\n\t%s", 
+//		    headline.attr("title"), headline.absUrl("href")));
+//		}
+//	}
+	
+//	@Test
+//	void testJsoupVersionOne() throws IOException {
+//		String porter_url = "https://nutrition.sa.ucsc.edu/shortmenu.aspx?sName=UC+Santa+Cruz+Dining&locationNum=25&locationName=Porter+Kresge+Dining+Hall&naFlag=1/";
+//		Document doc = Jsoup.connect(porter_url).get();
+//		System.out.println((doc.title()));
+//		Elements newsHeadlines = doc.select("#mp-itn b a");
+//		for (Element headline : newsHeadlines) {
+//		  System.out.println(String.format("%s\n\t%s", 
+//		    headline.attr("title"), headline.absUrl("href")));
+//		}
+//	}
+	
+	private Map<String, String> getCookies() {
+		Map<String, String> cookies = new HashMap<>();
+		
+		cookies.put("_ga", "GA1.2.927471419.1579193387");
+		cookies.put("nmstat", "094843c1-be05-38c3-9ecd-74e81fb66eba");
+		cookies.put("WebInaCartDates", "");
+		cookies.put("WebInaCartMeals", "");
+		cookies.put("WebInaCartRecipes", "");
+		cookies.put("WebInaCartQtys", "");
+		cookies.put("WebInaCartLocation", "25");
+		
+		return cookies;
+	}
+	
+	@Test
+	void testJsoup() throws IOException {
+		List<String> result = new ArrayList<>();
+
+		String porter_url = "https://nutrition.sa.ucsc.edu/shortmenu.aspx?sName=UC+Santa+Cruz+Dining&locationNum=25&locationName=Porter+Kresge+Dining+Hall&naFlag=1";
+
+		Document doc = null;
+        try {
+        	Connection con = Jsoup.connect(porter_url)
+    			.cookies(getCookies())
+//        		.userAgent("Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+//        		.referrer("https://nutrition.sa.ucsc.edu/")
+        		.header("host", "nutrition.sa.ucsc.edu")
+                .timeout(30000);
+
+            Connection.Response response = con.execute();
+
+            if (response.statusCode() == 200) {
+                doc = con.get();
+            } else {
+                System.out.println(response.statusCode());
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+		
+        
+//		Document doc = Jsoup.connect(porter_url).get();
+		for (Element shortmenu : doc.select("body > table div.shortmenumeals"))
+			result.add(shortmenu.text());
+		
+		System.out.println(Arrays.toString(result.toArray()));
+		
+		assertEquals("Breakfast", result.get(0));
+		assertEquals("Lunch", result.get(1));
+		assertEquals("Dinner", result.get(2));
+	}
+	
+//	@Test
+//	void testGetSection() throws IOException {
+//		String porter_url = "https://nutrition.sa.ucsc.edu/shortmenu.aspx?sName=UC+Santa+Cruz+Dining&locationNum=25&locationName=Porter+Kresge+Dining+Hall&naFlag=1";
+//		List<String> sections = scrapper.scrapeSections(porter_url);
+//		assertEquals("Breakfast", sections.get(0));
+//		assertEquals("Lunch", sections.get(1));
+//		assertEquals("Dinner", sections.get(2));
+//	}
+
+}

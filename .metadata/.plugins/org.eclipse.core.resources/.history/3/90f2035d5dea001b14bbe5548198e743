@@ -1,0 +1,16 @@
+package diningHallScrapper;
+
+import java.io.IOException;
+import java.util.List;
+import java.util.Map;
+
+import org.jsoup.nodes.Document;
+
+public interface MenuScrapper {
+		
+	public List<String> scrapeMeals() throws IOException;
+
+	public List<List<String>> scrapeMealCategories() throws IOException;
+	
+	public Map<String, Map<String, List<String>>> scrapeMenu() throws IOException;
+}

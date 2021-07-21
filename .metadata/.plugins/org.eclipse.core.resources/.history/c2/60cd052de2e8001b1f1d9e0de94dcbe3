@@ -1,0 +1,29 @@
+package diningHallScrapper;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.List;
+
+import org.junit.jupiter.api.Test;
+
+class TestDiningHallScrapper {
+
+	private MenuScrapper scrapper = new DiningHallScrapper();
+	
+//	@Test
+//	void setUp() {
+//		this.scrapper = new DiningHallScrapper();
+//	}
+	
+	@Test
+	void testReturnsUrl() {
+		String porter_url = "https://nutrition.sa.ucsc.edu/shortmenu.aspx?sName=UC+Santa+Cruz+Dining&locationNum=25&locationName=Porter+Kresge+Dining+Hall&naFlag=1";
+//		assertEquals(porter_url, this.scrapper.scrape(porter_url).get(0));
+		List<String> menu = scrapper.scrape(porter_url);
+		System.out.println(porter_url);
+		System.out.println(menu.get(0));
+		assertTrue(porter_url.equals(menu.get(0)));
+//		assertTrue(porter_url.equals(porter_url));
+	}
+
+}

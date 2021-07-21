@@ -1,0 +1,39 @@
+package diningHallScrapper;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.IOException;
+import java.util.List;
+
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class TestDiningHallScrapper {
+	
+	private MenuScrapper scrapper;
+	
+	@BeforeEach
+	void setUp() throws Exception {
+		String porter_url = "https://nutrition.sa.ucsc.edu/shortmenu.aspx?sName=UC+Santa+Cruz+Dining&locationNum=25&locationName=Porter+Kresge+Dining+Hall&naFlag=1";
+		scrapper = new UcscDiningHallMenuScrapper(porter_url);
+	}
+	
+	@Test
+	void testScrapperScrapeMeals() throws IOException {		
+		List<String> result = scrapper.scrapeMeals();
+		
+		assertEquals("Breakfast", result.get(0));
+		assertEquals("Lunch", result.get(1));
+		assertEquals("Dinner", result.get(2));
+	}
+	
+	@Test
+	void testScrapperScrapeBreakfastSubsections() throws IOException {
+		List<List<String>> result = scrapper.scrapeMealCategories();
+		
+		assertEquals("-- Breakfast --", result.get(0).get(0));
+		assertEquals("-- Daily --", result.get(0).get(1));
+		assertEquals("-- Bakery --", result.get(0).get(2));
+	}
+	
+}

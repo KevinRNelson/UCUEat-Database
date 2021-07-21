@@ -1,0 +1,18 @@
+package diningHallScrapper;
+
+import java.util.List;
+
+public class MenuItemBuilder {
+	
+	String name;
+	DietaryNeeds dietaryNeeds;
+	
+	
+	MenuItemBuilder(String name) {
+		this.name = name;
+	}
+	
+	MenuItem build() {
+		return new MenuItem(name, dietaryNeeds);
+	}
+}

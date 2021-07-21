@@ -1,0 +1,15 @@
+package diningHallScrapper;
+
+import java.util.ArrayList;
+
+public class DiningHallScrapper implements MenuScrapper {
+
+	
+	
+	@Override
+	public ArrayList scrape(String url) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

@@ -1,0 +1,77 @@
+package diningHallScrapper;
+
+import java.util.ArrayList;
+import java.util.List;
+
+public class DietaryInfo {
+
+	List<String> dietaryNeeds;
+//	boolean[] dietaryNeeds;
+	
+	// =============================================================================================
+    //                                          Constructor
+    // =============================================================================================
+	
+	DietaryInfo() {
+		dietaryNeeds = new ArrayList<>();
+//		dietaryNeeds = new boolean[12];
+	}
+	
+	
+	void addDietaryNeed(String dietaryNeed) {
+		dietaryNeeds.add(dietaryNeed);
+	}
+	
+	// =============================================================================================
+    //                                        Boolean Methods
+    // =============================================================================================
+	
+	boolean containsPork() {
+		return dietaryNeeds.contains("pork");
+	}
+	
+	boolean containsBeef() {
+		return dietaryNeeds.contains("beef");
+	}
+	
+	boolean containsFish() {
+		return dietaryNeeds.contains("fish");
+	}
+	
+	boolean containsShellfish() {
+		return dietaryNeeds.contains("shellfish");
+	}
+	
+	boolean containsNut() {
+		return dietaryNeeds.contains("treenut");
+	}
+	
+	boolean containsMilk() {
+		return dietaryNeeds.contains("milk");
+	}
+	
+	boolean containsEgg() {
+		return dietaryNeeds.contains("egg");
+	}
+	
+	boolean containsSoy() {
+		return dietaryNeeds.contains("soy");
+	}
+	
+	boolean isGlutenFree() {
+		return dietaryNeeds.contains("gluten");
+	}
+	
+	boolean isVegan() {
+		return dietaryNeeds.contains("vegan");
+	}
+	
+	boolean isVegetarian() {
+		return dietaryNeeds.contains("veggie");
+	}
+	
+	boolean isHalal() {
+		return dietaryNeeds.contains("halal");
+	}
+
+}

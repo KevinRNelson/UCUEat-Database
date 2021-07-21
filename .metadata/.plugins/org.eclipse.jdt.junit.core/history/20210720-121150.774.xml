@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="TestDiningHallScrapper" project="DiningHallScrapper" tests="2" started="2" failures="0" errors="0" ignored="0">
+  <testsuite name="diningHallScrapper.TestDiningHallScrapper" time="1.705" displayname="TestDiningHallScrapper" uniqueid="[engine:junit-jupiter]/[class:diningHallScrapper.TestDiningHallScrapper]">
+    <testcase name="testScrapperScrapeSections" classname="diningHallScrapper.TestDiningHallScrapper" time="1.136" displayname="testScrapperScrapeSections()" uniqueid="[engine:junit-jupiter]/[class:diningHallScrapper.TestDiningHallScrapper]/[method:testScrapperScrapeSections()]"/>
+    <testcase name="testJsoup" classname="diningHallScrapper.TestDiningHallScrapper" time="0.568" displayname="testJsoup()" uniqueid="[engine:junit-jupiter]/[class:diningHallScrapper.TestDiningHallScrapper]/[method:testJsoup()]"/>
+  </testsuite>
+</testrun>
