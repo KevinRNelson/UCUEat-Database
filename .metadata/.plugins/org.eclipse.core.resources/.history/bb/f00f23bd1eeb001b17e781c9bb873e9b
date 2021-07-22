@@ -1,0 +1,18 @@
+package diningHallScrapper;
+
+public abstract class OrSpecification extends AbstractSpecification {
+
+	Specification one;
+	Specification other;
+	
+	public OrSpecification(Specification one, Specification other) {
+		this.one = one;
+		this.other = other;
+	}
+	
+	public boolean isSatisFiedBy(Object candidate) {
+		return one.isSatisfiedBy(candidate) ||
+				other.isSatisfiedBy(candidate);
+	}
+
+}

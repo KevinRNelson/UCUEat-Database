@@ -1,0 +1,85 @@
+package diningHallScrapper;
+
+import java.util.List;
+
+public class MenuItem {
+	
+	String name;
+	DietaryInfo dietaryInfo;
+	
+	MenuItem(String name) {
+		this.name = name;
+	}
+	
+	MenuItem(String name, DietaryInfo dietaryNeeds) {
+		this.name = name;
+		this.dietaryInfo = dietaryNeeds;
+	}
+	
+	
+	boolean containsPork() {
+		return dietaryInfo.containsPork();
+	}
+	
+	boolean containsBeef() {
+		return dietaryInfo.containsBeef();
+	}
+	
+	boolean containsFish() {
+		return dietaryInfo.containsFish();
+	}
+	
+	boolean containsShellfish() {
+		return dietaryInfo.containsShellfish();
+	}
+	
+	boolean containsNut() {
+		return dietaryInfo.containsNut();
+	}
+	
+	boolean containsMilk() {
+		return dietaryInfo.containsMilk();
+	}
+	
+	boolean containsEgg() {
+		return dietaryInfo.containsEgg();
+	}
+	
+	boolean containsSoy() {
+		return dietaryInfo.containsSoy();
+	}
+	
+	boolean isGlutenFree() {
+		return dietaryInfo.isGlutenFree();
+	}
+	
+	boolean isVegan() {
+		return dietaryInfo.isVegan();
+	}
+	
+	boolean isVegetarian() {
+		return dietaryInfo.isVegetarian();
+	}
+	
+	boolean isHalal() {
+		return dietaryInfo.isHalal();
+	}
+	
+	
+	@Override 
+	public String toString() {
+		return this.name;
+	}
+	
+	@Override
+	public boolean equals(Object o) {
+		if (o == this)
+			return true;
+		
+		if (!(o instanceof MenuItem))
+			return false;
+		
+		MenuItem menuItem = (MenuItem) o;
+		return this.name.equals(menuItem.name);
+	}
+}

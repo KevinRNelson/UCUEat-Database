@@ -1,0 +1,15 @@
+package diningHallScrapper;
+
+public class NotSpecification extends AbstractSpecification {
+
+	Specification wrapped;
+	
+	public NotSpecification(Specification wrapped) {
+		this.wrapped = wrapped;
+	}
+	
+	public boolean isSatisFiedBy(Object candidate) {
+		return !wrapped.isSatisfiedBy(candidate);
+	}
+	
+}

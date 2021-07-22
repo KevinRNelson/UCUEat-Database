@@ -1,0 +1,34 @@
+package diningHallScrapper;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
+
+import org.junit.jupiter.api.Test;
+
+class TestDietaryNeedsSpecification {
+
+	private MenuScrapper menuScrapper = MenuScrapperFactory.createMenuScrapper("UcscDiningHall");
+	private Menu menu = menuScrapper.scrapeMenu(
+		"https://nutrition.sa.ucsc.edu/shortmenu.aspx?sName=UC+Santa+Cruz+Dining&locationNum=25&locationName=Porter+Kresge+Dining+Hall&naFlag=1"
+	);
+//	private Map<String, Map<String, List<MenuItem>>> result = ;
+	
+	@Test
+	void testContainsEgg() {
+		Specification containsEgg = new ContainsEggSpecification();
+		List<MenuItem> menuItemsThatContainEgg = menu.selectSatisfying(containsEgg);
+		Set<MenuItem> result = new TreeSet<>(menuItemsThatContainEgg);
+		System.out.println(Arrays.toString(result.toArray()));
+		
+		assertTrue(result.contains(new MenuItem("Cage-Free Scrambled Eggs")));
+		assertTrue(result.contains(new MenuItem("Hard-boiled Cage Free Egg (1)")));
+		assertTrue(result.contains(new MenuItem("Blueberry Muffin")));
+		assertTrue(result.contains(new MenuItem("Blondie Brownies")));
+	}
+
+}

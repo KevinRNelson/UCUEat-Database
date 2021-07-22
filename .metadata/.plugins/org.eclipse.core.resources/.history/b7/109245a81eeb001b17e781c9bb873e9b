@@ -1,0 +1,29 @@
+package diningHallScrapper;
+
+public class OrSpecification implements Specification {
+
+	@Override
+	public boolean isSatisfiedBy(Object o) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public Specification and(Specification other) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Specification or(Specification other) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public Specification not() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+}

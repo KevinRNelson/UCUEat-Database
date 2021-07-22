@@ -1,0 +1,27 @@
+package diningHallScrapper;
+
+import java.util.HashSet;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
+public class Menu {
+
+	Map<String, Map<String, List<MenuItem>>> menu;
+	
+	Menu() {
+		menu = new LinkedHashMap<>();
+	}
+	
+	
+	public Set<MenuItem> selectSatisfying(DietaryNeedsSpecification specification) {
+		Set<MenuItem> result = new HashSet<>();
+		
+		for (String meal : menu.keySet()) {
+			
+		}
+		
+		return result;
+	}
+}

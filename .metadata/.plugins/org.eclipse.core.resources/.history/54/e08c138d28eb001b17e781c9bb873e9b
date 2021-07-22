@@ -1,0 +1,12 @@
+package diningHallScrapper;
+
+public class DietaryNeedsSpecification implements Specification {
+
+	@Override
+	@Override
+	public boolean isSatisfiedBy(MenuItem menuItem) {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+}

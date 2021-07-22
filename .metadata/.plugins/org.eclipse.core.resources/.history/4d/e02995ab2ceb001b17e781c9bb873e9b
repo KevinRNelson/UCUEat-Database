@@ -1,0 +1,15 @@
+package diningHallScrapper;
+
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+
+public class Menu {
+
+	Map<String, Map<String, List<MenuItem>>> map;
+	
+	Menu() {
+		map = new LinkedHashMap<>();
+	}
+	
+}

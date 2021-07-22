@@ -1,11 +1,11 @@
 package diningHallScrapper;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.ArrayList;
 
 public class DietaryInfo {
 
-	List<String> dietaryInfo;
+	private List<String> dietaryInfo;
 //	boolean[] dietaryNeeds;
 	
 	// =============================================================================================
@@ -20,6 +20,15 @@ public class DietaryInfo {
 	
 	void addDietaryNeed(String dietaryNeed) {
 		dietaryInfo.add(dietaryNeed);
+	}
+	
+	// =============================================================================================
+    //                                          Getters
+    // =============================================================================================
+	
+	
+	public List<String> getDietaryInfo() {
+		return dietaryInfo;
 	}
 	
 	// =============================================================================================

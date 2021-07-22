@@ -1,5 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="TestDiningHallScrapper" project="DiningHallScrapper" tests="1" started="1" failures="0" errors="0" ignored="0">
-  <testsuite name="diningHallScrapper.TestDiningHallScrapper" time="0.926" displayname="TestDiningHallScrapper" uniqueid="[engine:junit-jupiter]/[class:diningHallScrapper.TestDiningHallScrapper]">
-    <testcase name="testScrapeMenu" classname="diningHallScrapper.TestDiningHallScrapper" time="0.926" displayname="testScrapeMenu()" uniqueid="[engine:junit-jupiter]/[class:diningHallScrapper.TestDiningHallScrapper]/[method:testScrapeMenu()]"/>
-  </testsuite>
-</testrun>

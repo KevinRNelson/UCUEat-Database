@@ -10,7 +10,6 @@ import org.jsoup.Connection;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
-import org.jsoup.select.Elements;
 
 public abstract class DiningHallMenuScrapper implements MenuScrapper {
 		
@@ -35,8 +34,23 @@ public abstract class DiningHallMenuScrapper implements MenuScrapper {
 	abstract String scrapeDietaryInfo(Element dietaryInfo);
 	
 	// =============================================================================================
-    //                                        Public  Methods
+    //                                       Template  Methods
     // =============================================================================================
+	
+	@Override
+	public Menu scrapeMenu(String url) {
+		Document document = getDocument(url);
+		
+		Menu result = new Menu();
+
+		for (Element mealTable : document.select(mealTableSelector())) {
+			String meal = scrapeMealTitle(mealTable);	
+			
+			result.menu.put(meal, scrapeMenuItemsForMeal(mealTable));
+		}
+		
+		return result;
+	}
 	
 	@Override
 	public Document getDocument(String url) {
@@ -59,21 +73,6 @@ public abstract class DiningHallMenuScrapper implements MenuScrapper {
         return document;
 	}
 	
-	@Override
-	public Map<String, Map<String, List<MenuItem>>> scrapeMenu(String url) {
-		Document document = getDocument(url);
-		
-		Map<String, Map<String, List<MenuItem>>> result = new LinkedHashMap<>();
-
-		for (Element mealTable : document.select(mealTableSelector())) {
-			String meal = scrapeMealTitle(mealTable);	
-			
-			result.put(meal, scrapeMenuItemsForMeal(mealTable));
-		}
-		
-		return result;
-	}
-	
 	// =============================================================================================
     //                                        Private  Methods
     // =============================================================================================
@@ -86,16 +85,11 @@ public abstract class DiningHallMenuScrapper implements MenuScrapper {
 	private Map<String, List<MenuItem>> scrapeMenuItemsForMeal(Element mealTable) {
 		Map<String, List<MenuItem>> result = new LinkedHashMap<>();
 		
-		String mealCategory = "";
 		List<MenuItem> categoryItems = null;
-		
 		for (Element mealTableRow : mealTable.select(mealTableRowSelector())) {
 			if (rowContainsCategoryTitle(mealTableRow)) {
 				categoryItems = new ArrayList<>();
-				
-				mealCategory = scrapeMealCategoryTitle(mealTableRow);
-				
-				addCategoryMenuItemsToMenu(result, mealCategory, categoryItems);
+				addCategoryMenuItemsToMenu(result, scrapeMealCategoryTitle(mealTableRow), categoryItems);
 			} else {
 				addMenuItem(categoryItems, mealTableRow);
 			}
@@ -114,9 +108,11 @@ public abstract class DiningHallMenuScrapper implements MenuScrapper {
 		menu.put(mealCategory, categoryItems);
 	}
 	
+	
 	private void addMenuItem(List<MenuItem> categoryItems, Element mealTableRow) {
 		categoryItems.add(scrapeMenuItem(mealTableRow));
 	}
+	
 	
 	private MenuItem scrapeMenuItem(Element mealTableRow) {
 		String menuItemTitle = mealTableRow.text();

@@ -1,8 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?><testrun name="TestDiningHallScrapper" project="DiningHallScrapper" tests="4" started="4" failures="0" errors="0" ignored="0">
-  <testsuite name="diningHallScrapper.TestDiningHallScrapper" time="2.619" displayname="TestDiningHallScrapper" uniqueid="[engine:junit-jupiter]/[class:diningHallScrapper.TestDiningHallScrapper]">
-    <testcase name="testObtainsDietaryInfo" classname="diningHallScrapper.TestDiningHallScrapper" time="0.897" displayname="testObtainsDietaryInfo()" uniqueid="[engine:junit-jupiter]/[class:diningHallScrapper.TestDiningHallScrapper]/[method:testObtainsDietaryInfo()]"/>
-    <testcase name="testScrapeBreakfastMenuItems" classname="diningHallScrapper.TestDiningHallScrapper" time="0.567" displayname="testScrapeBreakfastMenuItems()" uniqueid="[engine:junit-jupiter]/[class:diningHallScrapper.TestDiningHallScrapper]/[method:testScrapeBreakfastMenuItems()]"/>
-    <testcase name="testScrappedCategoryTitles" classname="diningHallScrapper.TestDiningHallScrapper" time="0.549" displayname="testScrappedCategoryTitles()" uniqueid="[engine:junit-jupiter]/[class:diningHallScrapper.TestDiningHallScrapper]/[method:testScrappedCategoryTitles()]"/>
-    <testcase name="testScrappedMealTitles" classname="diningHallScrapper.TestDiningHallScrapper" time="0.604" displayname="testScrappedMealTitles()" uniqueid="[engine:junit-jupiter]/[class:diningHallScrapper.TestDiningHallScrapper]/[method:testScrappedMealTitles()]"/>
-  </testsuite>
-</testrun>

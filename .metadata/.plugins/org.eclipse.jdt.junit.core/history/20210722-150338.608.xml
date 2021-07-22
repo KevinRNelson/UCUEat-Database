@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?><testrun name="TestDietaryNeedsSpecification" project="DiningHallScrapper" tests="2" started="2" failures="0" errors="0" ignored="0">
+  <testsuite name="diningHallScrapper.TestDietaryNeedsSpecification" time="0.572" displayname="TestDietaryNeedsSpecification" uniqueid="[engine:junit-jupiter]/[class:diningHallScrapper.TestDietaryNeedsSpecification]">
+    <testcase name="testContainsEgg" classname="diningHallScrapper.TestDietaryNeedsSpecification" time="0.017" displayname="testContainsEgg()" uniqueid="[engine:junit-jupiter]/[class:diningHallScrapper.TestDietaryNeedsSpecification]/[method:testContainsEgg()]"/>
+    <testcase name="testContainsEggOrPork" classname="diningHallScrapper.TestDietaryNeedsSpecification" time="0.002" displayname="testContainsEggOrPork()" uniqueid="[engine:junit-jupiter]/[class:diningHallScrapper.TestDietaryNeedsSpecification]/[method:testContainsEggOrPork()]"/>
+  </testsuite>
+</testrun>

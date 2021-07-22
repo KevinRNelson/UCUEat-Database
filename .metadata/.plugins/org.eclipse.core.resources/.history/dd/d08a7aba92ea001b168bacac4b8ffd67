@@ -1,0 +1,93 @@
+package diningHallScrapper;
+
+import static org.junit.jupiter.api.Assertions.*;
+
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+
+import org.junit.jupiter.api.BeforeAll;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+class TestDiningHallScrapper {
+	
+	private Map<String, Map<String, List<MenuItem>>> result;
+	
+	@BeforeEach
+	void setUp() throws Exception {
+		String porter_url = "https://nutrition.sa.ucsc.edu/shortmenu.aspx?sName=UC+Santa+Cruz+Dining&locationNum=25&locationName=Porter+Kresge+Dining+Hall&naFlag=1";
+		result = new UcscDiningHallMenuScrapper().scrapeMenu(porter_url);
+	}
+	
+	@Test
+	void testScrappedMealTitles() {
+		assertTrue(result.containsKey("Breakfast"));
+		assertTrue(result.containsKey("Lunch"));
+		assertTrue(result.containsKey("Dinner"));
+	}
+	
+	@Test
+	void testScrappedCategoryTitles() {
+		assertTrue(result.get("Breakfast").containsKey("Breakfast"));
+		assertTrue(result.get("Breakfast").containsKey("Daily"));
+		assertTrue(result.get("Breakfast").containsKey("Bakery"));
+		
+		assertTrue(result.get("Lunch").containsKey("Soups"));
+		assertTrue(result.get("Lunch").containsKey("Salads"));
+		assertTrue(result.get("Lunch").containsKey("Grill"));
+		assertTrue(result.get("Lunch").containsKey("Clean Plate"));
+		assertTrue(result.get("Lunch").containsKey("Open Bars"));
+		assertTrue(result.get("Lunch").containsKey("Sandwiches"));
+
+		assertTrue(result.get("Dinner").containsKey("Soups"));
+		assertTrue(result.get("Dinner").containsKey("Salads"));
+		assertTrue(result.get("Dinner").containsKey("Grill"));
+		assertTrue(result.get("Dinner").containsKey("Clean Plate"));
+		assertTrue(result.get("Dinner").containsKey("Bakery"));
+		assertTrue(result.get("Dinner").containsKey("Open Bars"));
+	}
+	
+	@Test
+	void testScrapeBreakfastMenuItems() {
+		assertTrue(result.get("Breakfast").get("Breakfast").contains(new MenuItem("Breakfast Burrito")));
+		assertTrue(result.get("Breakfast").get("Breakfast").contains(new MenuItem("Mexican Chorizo Sausage")));
+		assertTrue(result.get("Breakfast").get("Breakfast").contains(new MenuItem("Potatoes O'Brien")));
+		assertTrue(result.get("Breakfast").get("Breakfast").contains(new MenuItem("Sourdough French Toast")));
+		assertTrue(result.get("Breakfast").get("Breakfast").contains(new MenuItem("Soyrizo Tofu Scramble")));
+		
+		assertTrue(result.get("Breakfast").get("Daily").contains(new MenuItem("Cage-Free Scrambled Eggs")));
+		assertTrue(result.get("Breakfast").get("Daily").contains(new MenuItem("Hard-boiled Cage Free Egg (1)")));
+		assertTrue(result.get("Breakfast").get("Daily").contains(new MenuItem("Organic Oatmeal Gluten-Free")));
+		assertTrue(result.get("Breakfast").get("Daily").contains(new MenuItem("Steamed Rice")));
+		
+		assertTrue(result.get("Breakfast").get("Bakery").contains(new MenuItem("Cinnamon Downtowner")));
+		assertTrue(result.get("Breakfast").get("Bakery").contains(new MenuItem("Orange Cranberry Muffin")));
+	}
+	
+	@Test
+	void testObtainsDietaryInfo() {
+		MenuItem menuItem = result.get("Breakfast").get("Breakfast").get(0);
+				
+		assertTrue(menuItem.isVegetarian());
+		assertTrue(menuItem.containsSoy());
+		assertTrue(menuItem.containsEgg());
+		assertTrue(menuItem.containsMilk());
+	}
+	
+	void printMenu(Map<String, Map<String, List<MenuItem>>> menu) {
+		for (String mealKey : menu.keySet()) {
+			System.out.println(mealKey);
+			
+			for (String categoryKey : menu.get(mealKey).keySet()) {
+				System.out.println("\t" + categoryKey);
+				
+				for (MenuItem menuItem : menu.get(mealKey).get(categoryKey))
+					System.out.println("\t\t" + menuItem);
+			}
+		}
+	}
+	
+}
